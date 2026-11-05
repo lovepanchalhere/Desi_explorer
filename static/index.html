@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desi Explorer | AI Haryana Tourism Guide & Hidden Gems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%20width=%2232%22%20height=%2232%22><text y=%2226%22 font-size=%2226%22>🌾</text></svg>">
+</head>
+<body>
+
+  <!-- Top Tricolor Accent Stripe -->
+  <div class="top-tricolor-bar"></div>
+
+  <!-- Header Nav -->
+  <header class="header-nav">
+    <div class="brand-wrapper">
+      <div class="brand-logo-icon">🌾</div>
+      <div>
+        <h1 class="brand-title">देसी <span>Explorer</span></h1>
+        <p class="brand-sub" data-i18n="tagline">AI-Powered Haryana Tourism & Hidden Gems Guide</p>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <div class="stats-badge" title="Verified dataset across 5 Haryana cultural hubs">
+        <span>📍</span> <span data-i18n="statsText">22 Verified Places | 5 Cities</span>
+      </div>
+
+      <!-- Bilingual Toggle -->
+      <div class="lang-toggle" role="group" aria-label="Language selection">
+        <button id="btnLangEn" class="lang-btn active" onclick="setLanguage('en')">English</button>
+        <button id="btnLangHi" class="lang-btn" onclick="setLanguage('hi')">हिंदी</button>
+      </div>
+
+      <!-- Optional Key Config -->
+      <button class="key-settings-btn" id="openSettingsBtn" onclick="openKeyModal()" title="Gemini API Key Settings">
+        <span class="key-status-dot" id="keyStatusDot"></span>
+        <span data-i18n="aiStatusBtn">AI Engine</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-banner">
+      <div class="hero-tag" data-i18n="heroTag">✨ Discover Real Haryana</div>
+      <h2 class="hero-title" data-i18n="heroTitle">Uncover Ancient History, Sacred Sarovars & Hidden Gems</h2>
+      <p class="hero-desc" data-i18n="heroDesc">
+        Tourists often only rush past GT Road highways and miss profound cultural landmarks. 
+        Desi Explorer crafts an authentic, grounded travel plan with verified local folklore, 
+        sacred history, must-try Haryanvi dishes, and guaranteed secret spots.
+      </p>
+
+      <div class="city-quick-pills">
+        <span class="city-quick-tag">🛕 Kurukshetra</span>
+        <span class="city-quick-tag">👑 Karnal</span>
+        <span class="city-quick-tag">⚔️ Panipat</span>
+        <span class="city-quick-tag">⛲ Pinjore</span>
+        <span class="city-quick-tag">🚩 Mullana / Ambala</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Container -->
+  <main class="main-container">
+    
+    <!-- Left Column: Planner Form -->
+    <aside class="planner-card">
+      <div class="planner-card-header">
+        <h3 class="planner-heading">
+          <span>🧭</span> <span data-i18n="plannerHeading">Trip Planner</span>
+        </h3>
+        <p class="planner-subheading" data-i18n="plannerSub">Personalize your Haryana cultural journey</p>
+      </div>
+
+      <form id="plannerForm" onsubmit="handleFormSubmit(event)">
+        <!-- Destination City -->
+        <div class="form-group">
+          <label class="form-label" for="citySelect" data-i18n="labelCity">Destination City / क्षेत्र</label>
+          <select id="citySelect" class="form-select" required>
+            <option value="Kurukshetra" selected>Kurukshetra (कुरुक्षेत्र)</option>
+            <option value="Karnal">Karnal (करनाल)</option>
+            <option value="Panipat">Panipat (पानीपत)</option>
+            <option value="Pinjore">Pinjore (पिंजौर)</option>
+            <option value="Mullana/Ambala">Mullana / Ambala (मुलाना / अंबाला)</option>
+            <option value="All">All Haryana Cities (समग्र हरियाणा)</option>
+          </select>
+        </div>
+
+        <!-- Time Available -->
+        <div class="form-group">
+          <label class="form-label" data-i18n="labelTime">Time Available / उपलब्ध समय</label>
+          <div class="option-grid" id="timeGrid">
+            <div class="option-btn" data-value="2_hours" onclick="selectTimeOption('2_hours')">
+              <span class="opt-icon">⚡</span>
+              <span data-i18n="optTime2hr">2 Hours</span>
+            </div>
+            <div class="option-btn selected" data-value="half_day" onclick="selectTimeOption('half_day')">
+              <span class="opt-icon">☀️</span>
+              <span data-i18n="optTimeHalf">Half Day</span>
+            </div>
+            <div class="option-btn" data-value="full_day" onclick="selectTimeOption('full_day')">
+              <span class="opt-icon">🌄</span>
+              <span data-i18n="optTimeFull">Full Day</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interests (Multi-Select) -->
+        <div class="form-group">
+          <label class="form-label" data-i18n="labelInterests">Interests / आपकी रुचि (चुनें)</label>
+          <div class="option-grid" id="interestGrid">
+            <div class="option-btn selected" data-value="heritage" onclick="toggleInterestOption('heritage')">
+              <span class="opt-icon">🏛️</span>
+              <span data-i18n="optHeritage">Heritage</span>
+            </div>
+            <div class="option-btn selected" data-value="spiritual" onclick="toggleInterestOption('spiritual')">
+              <span class="opt-icon">🛕</span>
+              <span data-i18n="optSpiritual">Spiritual</span>
+            </div>
+            <div class="option-btn" data-value="food" onclick="toggleInterestOption('food')">
+              <span class="opt-icon">🍲</span>
+              <span data-i18n="optFood">Food</span>
+            </div>
+            <div class="option-btn" data-value="nature" onclick="toggleInterestOption('nature')">
+              <span class="opt-icon">🌿</span>
+              <span data-i18n="optNature">Nature</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Budget Level -->
+        <div class="form-group">
+          <label class="form-label" data-i18n="labelBudget">Budget Level / बजट</label>
+          <div class="option-grid" id="budgetGrid">
+            <div class="option-btn selected" data-value="low" onclick="selectBudgetOption('low')">
+              <span class="opt-icon">🪙</span>
+              <span data-i18n="optBudgetLow">Budget / Free</span>
+            </div>
+            <div class="option-btn" data-value="medium" onclick="selectBudgetOption('medium')">
+              <span class="opt-icon">💳</span>
+              <span data-i18n="optBudgetMid">Standard</span>
+            </div>
+            <div class="option-btn" data-value="high" onclick="selectBudgetOption('high')">
+              <span class="opt-icon">✨</span>
+              <span data-i18n="optBudgetHigh">Comfort</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hidden Gem Guarantee Note -->
+        <div style="background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 8px; padding: 0.65rem 0.85rem; font-size: 0.78rem; color: #92400E; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.4rem;">
+          <span>💎</span>
+          <span data-i18n="hiddenGemGuarantee">Every route is guaranteed to include at least 1 lesser-known Hidden Gem!</span>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-generate" id="btnSubmitForm">
+          <span>✨</span>
+          <span data-i18n="btnPlanRoute">Generate AI Itinerary</span>
+        </button>
+      </form>
+    </aside>
+
+    <!-- Right Column: Itinerary Results & Local Guide Chat -->
+    <section class="content-area">
+      
+      <!-- Loading State Box -->
+      <div class="loading-box" id="loadingBox">
+        <div class="loading-spinner"></div>
+        <h4 class="loading-title" data-i18n="loadingTitle">Curating Your Haryana Itinerary...</h4>
+        <p class="loading-sub" data-i18n="loadingSub">Filtering authentic monuments, secret spots, and heritage dhabas...</p>
+      </div>
+
+      <!-- Itinerary Display Container -->
+      <div class="itinerary-container" id="itineraryContainer">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+
+      <!-- "Ask the Local Guide" Chat Section -->
+      <section class="guide-chat-section" id="guideChatSection">
+        <div class="guide-chat-header">
+          <div class="guide-profile">
+            <div class="guide-avatar">👳‍♂️</div>
+            <div>
+              <h3 class="guide-name" data-i18n="guideName">Chacha Desi | Local Haryana Guide</h3>
+              <div class="guide-status" data-i18n="guideStatus">Grounded in verified historical facts & oral lore</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Prompts Pill Row -->
+        <div class="quick-prompts-row" id="quickPromptsRow">
+          <!-- Dynamically filled with bilingual pills -->
+        </div>
+
+        <!-- Chat History Messages -->
+        <div class="chat-messages" id="chatMessages">
+          <!-- Welcome message rendered here -->
+        </div>
+
+        <!-- Chat Input Form -->
+        <form class="chat-input-bar" onsubmit="handleChatSubmit(event)">
+          <input 
+            type="text" 
+            id="chatInput" 
+            class="chat-input" 
+            placeholder="Ask about any place, visiting hours, history, or local food..."
+            data-i18n-ph="chatPlaceholder"
+            required
+            autocomplete="off"
+          />
+          <button type="submit" class="chat-send-btn" id="btnChatSend">
+            <span data-i18n="btnSend">Ask</span> <span>➤</span>
+          </button>
+        </form>
+      </section>
+
+    </section>
+
+  </main>
+
+  <!-- Modal for API Key Settings -->
+  <div class="modal-overlay" id="keyModal" onclick="closeKeyModalOnOverlay(event)">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">⚙️ <span data-i18n="settingsTitle">Groq AI Settings</span></h3>
+        <button class="modal-close" onclick="closeKeyModal()">&times;</button>
+      </div>
+      <p style="font-size: 0.85rem; color: #4B5563; margin-bottom: 1rem;" data-i18n="settingsDesc">
+        Desi Explorer uses <strong>Groq (llama-3.3-70b-versatile)</strong> for live itinerary synthesis. If no key is set, our built-in <strong>grounded rule-based engine</strong> powers itineraries and chat seamlessly without breaking!
+      </p>
+      
+      <div class="form-group">
+        <label class="form-label" for="apiKeyInput" data-i18n="labelApiKey">Groq API Key</label>
+        <input 
+          type="password" 
+          id="apiKeyInput" 
+          class="form-select" 
+          placeholder="gsk_..."
+          style="cursor: text;"
+        />
+        <small style="font-size: 0.75rem; color: #6B7280; display: block; margin-top: 0.35rem;" data-i18n="apiKeyHint">
+          Stored only in your local session or configured in .env file.
+        </small>
+      </div>
+
+      <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.25rem;">
+        <button class="btn-ask-this-place" onclick="closeKeyModal()" data-i18n="btnCancel">Cancel</button>
+        <button class="btn-generate" style="width: auto; margin-top: 0;" onclick="saveApiKey()" data-i18n="btnSaveKey">Save & Connect</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer-wrap">
+    <p>🌾 <strong>देसी Explorer (Desi Explorer)</strong> — Authentic Cultural Tourism for Haryana</p>
+    <p style="font-size: 0.8rem; margin-top: 0.35rem; color: #6B7280;" data-i18n="footerSub">
+      Curated strictly from verified historical monuments & traditional culinary archives across Karnal, Kurukshetra, Panipat, Pinjore, and Mullana/Ambala.
+    </p>
+    <div class="footer-tags">
+      <span>🛡️ Zero Hallucinations</span>
+      <span>💎 100% Guaranteed Hidden Gems</span>
+      <span>🥘 Real Haryanvi Flavors</span>
+      <span>⚡ Built for 60-Minute Hacksprint</span>
+    </div>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
+
